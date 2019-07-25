@@ -1,39 +1,69 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react';
 import logo from '../../logo.svg';
-import './navbar.scss';
 import Dropdown from '../dropdown/dropdown';
 import UseeToggle from '../../hooks/Usetoggle';
 import DropdownItem from '../dropdown/dropDownItem';
+import '../dropdown/dropdown.css';
+
+
 
 export default function () {
     //define states for navbar links to use it for toggle it
-    const [flag, setflag] = UseeToggle(false);
-    const [flag1, setflag1] = UseeToggle(false);
-    const [flag2, setflag2] = UseeToggle(false);
+    const [flag, setflag, hide] = UseeToggle(false);
+    const [flag1, setflag1, hide1] = UseeToggle(false);
+    const [flag2, setflag2, hide2] = UseeToggle(false);
+
+    const hideDropmenu = () => {
+        hide();
+        hide1();
+        hide2();
+    };
+
+
     return (
-        <nav className="navbar">
-            <img src={logo} alt="City Tour Conpoany" />
-            <ul className="nav-links">
-                <li > <a href="/" className="nav-link" onClick={setflag}>Home{flag ?
-                    <Dropdown >
-                        <DropdownItem link="#" text="link1" />
-                        <DropdownItem link="#" text="link2" />
-                    </Dropdown> : <div></div>}</a> </li>
 
-                <li> <a href="/" className="nav-link" onClick={setflag1}>about{flag1 ?
-                    <Dropdown >
-                        <DropdownItem link="#" text="Company" />
-                        <DropdownItem link="#" text="Employee" />
-                    </Dropdown> : <div></div>}</a></li>
+        <div>
+            <nav className="navbar"  >
+                <img src={logo} alt="City Tour Conpoany" />
+                <ul className="nav-links"  >
+                    <li onClick={() => {
+                        hide1();
+                        hide2();
+                        setflag();
+                    }}  > <a href="javascript:void(0)" className="nav-link" >Home</a>{flag ?
+                        <Dropdown hide={hideDropmenu}  >
+                            <DropdownItem link="#" text="AmrOyounes" type="link" />
+                            <DropdownItem link="#" text="Killer" type="link" />
+                            <DropdownItem link="https://randomuser.me/api/portraits/med/men/96.jpg" type="img" />
+                        </Dropdown> : <div></div>} </li>
 
-                <li> <a href="/" className="nav-link active" onClick={setflag2}>React {flag2 ?
-                    <Dropdown >
-                        <DropdownItem link="#" text="React" />
-                        <DropdownItem link="#" text="Hooks" />
-                        <DropdownItem link="#" text="routing" />
-                        <DropdownItem link="#" text="lifeSycle" />
-                    </Dropdown> : <div></div>} </a></li>
-            </ul>
-        </nav>
+                    <li onClick={() => {
+                        hide();
+                        hide2();
+                        setflag1();
+                    }} > <a href="javascript:void(0)" className="nav-link" >about</a>{flag1 ?
+                        <Dropdown hide={hideDropmenu}  >
+                            <DropdownItem link="#" text="Company" type="link" />
+                            <DropdownItem link="#" text="Employee" type="link" />
+                        </Dropdown> : <div></div>}</li>
+
+                    <li onClick={() => {
+                        hide();
+                        hide1();
+                        setflag2();
+                    }} > <a href="javascript:void(0)" className="nav-link active" >React</a> {flag2 ?
+                        <Dropdown hide={hideDropmenu}  >
+                            <DropdownItem link="#" text="React" type="link" />
+                            <DropdownItem link="#" text="Hooks" type="link" />
+                            <DropdownItem link="#" text="routing" type="link" />
+                            <DropdownItem link="#" text="lifeSycle" type="link" />
+                            <DropdownItem text="Logout" type="btn" />
+
+                        </Dropdown> : <div></div>} </li>
+                </ul>
+            </nav>
+            <br />
+
+        </div>
     );
 }

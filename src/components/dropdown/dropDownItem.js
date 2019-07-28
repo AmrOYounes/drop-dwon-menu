@@ -1,27 +1,16 @@
 import React from 'react';
 
 export default function dropDownItem(props) {
-    const { link, text, type } = props;
+    const { children } = props;
 
-    {
-        switch (type) {
-            case "link":
-                return (<li> <a href="javascript:void(0)">{text}</a></li>);
+    return (
+        <li>
 
-            case "img":
-                return (<li><img src={link} /></li>);
+            {children}
 
+        </li>
 
-            case "btn":
-                return (<li><button>{text}</button></li>);
-
-
-
-
-            default:
-                break;
-        }
-    }
+    );
 
 
 }

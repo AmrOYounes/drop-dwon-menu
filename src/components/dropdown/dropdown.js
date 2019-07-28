@@ -1,15 +1,20 @@
+
 import React from 'react';
-import './dropdown.css';
+import ReactDOM from 'react-dom';
 
-export default function dropdown(props) {
-    const { children } = props;
-    return (
-        <div>
-            <div class="dropdown-content">
-                {children}
-            </div>
-        </div>
-    );
+export default class dropdown extends React.Component {
 
+
+
+    
+
+    render() {
+        return (<ul className="dropdown-content" >
+            {this.props.children}
+        </ul>);
+
+
+
+    }
 
 }

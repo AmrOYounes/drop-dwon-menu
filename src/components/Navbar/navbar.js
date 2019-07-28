@@ -1,39 +1,110 @@
-import React from 'react'
+import React, { useState, useEffect, useRef, Component } from 'react';
 import logo from '../../logo.svg';
-import './navbar.scss';
 import Dropdown from '../dropdown/dropdown';
 import UseeToggle from '../../hooks/Usetoggle';
 import DropdownItem from '../dropdown/dropDownItem';
+import '../dropdown/dropdown.css';
+import NavbarItem from './navbaritem';
+import ReactDOM from 'react-dom';
 
-export default function () {
-    //define states for navbar links to use it for toggle it
-    const [flag, setflag] = UseeToggle(false);
-    const [flag1, setflag1] = UseeToggle(false);
-    const [flag2, setflag2] = UseeToggle(false);
-    return (
-        <nav className="navbar">
-            <img src={logo} alt="City Tour Conpoany" />
-            <ul className="nav-links">
-                <li > <a href="/" className="nav-link" onClick={setflag}>Home{flag ?
-                    <Dropdown >
-                        <DropdownItem link="#" text="link1" />
-                        <DropdownItem link="#" text="link2" />
-                    </Dropdown> : <div></div>}</a> </li>
+export default class navbar extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            homeDropDownIsVisible: false,
+            aboutDropDownIsVisible: false,
+            careerDropDownIsVisible: false
+        };
+    }
 
-                <li> <a href="/" className="nav-link" onClick={setflag1}>about{flag1 ?
-                    <Dropdown >
-                        <DropdownItem link="#" text="Company" />
-                        <DropdownItem link="#" text="Employee" />
-                    </Dropdown> : <div></div>}</a></li>
+    toggleHomeLinks = () => {
+        this.setState({
+            homeDropDownIsVisible: !this.state.homeDropDownIsVisible,
+            aboutDropDownIsVisible: false,
+            careerDropDownIsVisible: false
+        })
+    }
 
-                <li> <a href="/" className="nav-link active" onClick={setflag2}>React {flag2 ?
-                    <Dropdown >
-                        <DropdownItem link="#" text="React" />
-                        <DropdownItem link="#" text="Hooks" />
-                        <DropdownItem link="#" text="routing" />
-                        <DropdownItem link="#" text="lifeSycle" />
-                    </Dropdown> : <div></div>} </a></li>
-            </ul>
-        </nav>
-    );
+    toggleAboutLinks = () => {
+        this.setState({
+            homeDropDownIsVisible: false,
+            aboutDropDownIsVisible: !this.state.aboutDropDownIsVisible,
+            careerDropDownIsVisible: false
+        })
+    }
+
+    hideNavbarDropDownMenu = () => {
+        this.setState({
+            homeDropDownIsVisible: false,
+            aboutDropDownIsVisible: false,
+            careerDropDownIsVisible: false
+
+        })
+    }
+    toggleCarreLink = () => {
+        this.setState({
+            homeDropDownIsVisible: false,
+            aboutDropDownIsVisible: false,
+            careerDropDownIsVisible: !this.state.careerDropDownIsVisible
+
+        })
+    }
+    componentWillMount() {
+        document.addEventListener('click', this.handleClick, false);
+    }
+    componentWillUnmount() {
+        // make sure you remove the listener when the component is destroyed
+        document.removeEventListener('click', this.handleClick, false);
+    }
+    handleClick = e => {
+
+        if (!ReactDOM.findDOMNode(this).contains(e.target)) {
+            this.hideNavbarDropDownMenu();
+        }
+
+    }
+    render() {
+        return (
+            <div>
+                <nav className="navbar"  >
+                    <img src={logo} alt="City Tour Conpoany" />
+                    <ul className="nav-links"  >
+
+                        <li >
+                            <a onClick={this.toggleHomeLinks}> home </a>
+                            {this.state.homeDropDownIsVisible && <Dropdown    >
+                                <DropdownItem><a>react</a></DropdownItem>
+                                <DropdownItem><a>angular</a></DropdownItem>
+                                <DropdownItem><img src="https://randomuser.me/api/portraits/med/men/62.jpg" /></DropdownItem>
+                                <DropdownItem><button>Logout</button></DropdownItem>
+                            </Dropdown>
+                            }
+                        </li>
+
+                        <li>
+                            <a onClick={this.toggleAboutLinks} >about</a>
+                            {this.state.aboutDropDownIsVisible && <Dropdown    >
+
+                                <DropdownItem><a>c++</a></DropdownItem>
+                                <DropdownItem><a>java</a></DropdownItem>
+                                <DropdownItem><img src="https://randomuser.me/api/portraits/med/men/62.jpg" /></DropdownItem>
+                                <DropdownItem><button>Logout</button></DropdownItem>
+                            </Dropdown>}
+                        </li>
+
+                        <li>
+                            <a onClick={this.toggleCarreLink} href="#">career</a>
+                            {this.state.careerDropDownIsVisible && <Dropdown    >
+                                <DropdownItem><a>weback</a></DropdownItem>
+                                <DropdownItem><a>gulp</a></DropdownItem>
+                                <DropdownItem><img src="https://randomuser.me/api/portraits/med/men/62.jpg" /></DropdownItem>
+                                <DropdownItem><button>Logout</button></DropdownItem>
+                            </Dropdown>}
+                        </li>
+                    </ul>
+                </nav>
+                <br />
+            </div>
+        );
+    }
 }

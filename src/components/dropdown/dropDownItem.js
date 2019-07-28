@@ -1,8 +1,16 @@
 import React from 'react';
 
 export default function dropDownItem(props) {
-    const { link, text } = props;
+    const { children } = props;
+
     return (
-        <a href={link}>{text}</a>
+        <li>
+
+            {children}
+
+        </li>
+
     );
+
+
 }
